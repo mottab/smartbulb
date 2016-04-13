@@ -1,0 +1,890 @@
+---
+swagger: "2.0"
+info:
+  description: "Fully control your smart home's Lamps using your mobile app"
+  version: "1.0.0"
+  title: "Smart bulb API"
+host: "ibtikar-gl-bulb.appspot.com"
+basePath: "/api"
+schemes:
+- "https"
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /devices:
+    post:
+      tags:
+      - "DEVICES"
+      summary: "Add new device to a room "
+      description: "This function allows user to create new device inside a room.\n"
+      operationId: "devicesPOST"
+      parameters:
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "device object"
+        description: "device object"
+        required: true
+        schema:
+          $ref: "#/definitions/deviceObject"
+      responses:
+        200:
+          description: "device object."
+          schema:
+            $ref: "#/definitions/House"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "DEVICES"
+  /devices/{DEVICE_ID}:
+    get:
+      tags:
+      - "DEVICES"
+      summary: "Get device info"
+      description: "This returns you all info related to a device, its state and properties\n\
+        by passing room to the API.\n"
+      operationId: "devicesDEVICE_IDGET"
+      parameters:
+      - name: "DEVICE_ID"
+        in: "path"
+        description: "device id to retrieve info about."
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "device object."
+          schema:
+            $ref: "#/definitions/Device"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "DEVICES"
+    put:
+      tags:
+      - "DEVICES"
+      summary: "Update device info."
+      description: "This function allows user to update his/her room info.\n"
+      operationId: "devicesDEVICE_IDPUT"
+      parameters:
+      - name: "DEVICE_ID"
+        in: "path"
+        description: "deviceid to update"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "room object"
+        description: "room object"
+        required: true
+        schema:
+          $ref: "#/definitions/deviceObject"
+      responses:
+        200:
+          description: "device object."
+          schema:
+            $ref: "#/definitions/Device"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "DEVICES"
+    delete:
+      tags:
+      - "DEVICES"
+      summary: "Delete device."
+      description: "This function allows user to delete his/her device from a room.\n"
+      operationId: "devicesDEVICE_IDDELETE"
+      parameters:
+      - name: "DEVICE_ID"
+        in: "path"
+        description: "deviceid to delete"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "done"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "DEVICES"
+  /houses:
+    post:
+      tags:
+      - "HOUSES"
+      summary: "Add new House"
+      description: "This function allows user to create new House.\n"
+      operationId: "housesPOST"
+      parameters:
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "house object"
+        description: "house object"
+        required: true
+        schema:
+          $ref: "#/definitions/houseObject"
+      responses:
+        200:
+          description: "house object."
+          schema:
+            $ref: "#/definitions/House"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "HOUSES"
+  /houses/{HOUSE_ID}:
+    get:
+      tags:
+      - "HOUSES"
+      summary: "Get house info"
+      description: "This returns you all info related to a house by passing house\
+        \ to the\nAPI.\n"
+      operationId: "housesHOUSE_IDGET"
+      parameters:
+      - name: "HOUSE_ID"
+        in: "path"
+        description: "house id to retrieve info about."
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "house object."
+          schema:
+            $ref: "#/definitions/House"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "HOUSES"
+    put:
+      tags:
+      - "HOUSES"
+      summary: "Update house info."
+      description: "This function allows user to update his/her house info.\n"
+      operationId: "housesHOUSE_IDPUT"
+      parameters:
+      - name: "HOUSE_ID"
+        in: "path"
+        description: "houseid to delete"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "house object"
+        description: "house object"
+        required: true
+        schema:
+          $ref: "#/definitions/houseObject"
+      responses:
+        200:
+          description: "house object."
+          schema:
+            $ref: "#/definitions/House"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "HOUSES"
+    delete:
+      tags:
+      - "HOUSES"
+      summary: "Delete user account."
+      description: "This function allows user to delete his/her house.\n"
+      operationId: "housesHOUSE_IDDELETE"
+      parameters:
+      - name: "HOUSE_ID"
+        in: "path"
+        description: "houseid to delete"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "done"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "HOUSES"
+  /rooms:
+    post:
+      tags:
+      - "ROOMS"
+      summary: "Add new room to a house"
+      description: "This function allows user to create new room inside a house.\n"
+      operationId: "roomsPOST"
+      parameters:
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "room object"
+        description: "room object"
+        required: true
+        schema:
+          $ref: "#/definitions/roomObject"
+      responses:
+        200:
+          description: "room object."
+          schema:
+            $ref: "#/definitions/House"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "ROOMS"
+  /rooms/{ROOM_ID}:
+    get:
+      tags:
+      - "ROOMS"
+      summary: "Get room info"
+      description: "This returns you all info related to a room by passing room to\
+        \ the\nAPI.\n"
+      operationId: "roomsROOM_IDGET"
+      parameters:
+      - name: "ROOM_ID"
+        in: "path"
+        description: "room id to retrieve info about."
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "room object."
+          schema:
+            $ref: "#/definitions/Room"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "ROOMS"
+    put:
+      tags:
+      - "ROOMS"
+      summary: "Update room info."
+      description: "This function allows user to update his/her room info.\n"
+      operationId: "roomsROOM_IDPUT"
+      parameters:
+      - name: "ROOM_ID"
+        in: "path"
+        description: "roomid to update"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "room object"
+        description: "room object"
+        required: true
+        schema:
+          $ref: "#/definitions/roomObject"
+      responses:
+        200:
+          description: "room object."
+          schema:
+            $ref: "#/definitions/Room"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "ROOMS"
+    delete:
+      tags:
+      - "ROOMS"
+      summary: "Delete user account."
+      description: "This function allows user to delete his/her room from a house.\n"
+      operationId: "roomsROOM_IDDELETE"
+      parameters:
+      - name: "ROOM_ID"
+        in: "path"
+        description: "rromid to delete"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "done"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "ROOMS"
+  /users:
+    post:
+      tags:
+      - "USERS"
+      summary: "add new user / create account"
+      description: "This function allows user to create new account, accounts are\
+        \ unique\nby email address, so one user can't create more than one account\
+        \ using \nthe same email address.\n"
+      operationId: "usersPOST"
+      parameters:
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "user object"
+        description: "user object"
+        required: true
+        schema:
+          $ref: "#/definitions/userObject"
+      responses:
+        200:
+          description: "user object."
+          schema:
+            $ref: "#/definitions/User"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "USERS"
+  /users/{USER_ID}:
+    get:
+      tags:
+      - "USERS"
+      summary: "Get user info"
+      description: "This returns you all info related to a user by passing userID\
+        \ to the\nAPI.\n"
+      operationId: "usersUSER_IDGET"
+      parameters:
+      - name: "USER_ID"
+        in: "path"
+        description: "user id to retrieve info about."
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "User object."
+          schema:
+            $ref: "#/definitions/User"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "USERS"
+    put:
+      tags:
+      - "USERS"
+      summary: "Update user account."
+      description: "This function allows user to update his/her account, accounts\
+        \ are unique by email address.\n"
+      operationId: "usersUSER_IDPUT"
+      parameters:
+      - name: "USER_ID"
+        in: "path"
+        description: "userid to delete"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "user object"
+        description: "user object"
+        required: true
+        schema:
+          $ref: "#/definitions/userObject"
+      responses:
+        200:
+          description: "user object."
+          schema:
+            $ref: "#/definitions/User"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "USERS"
+    delete:
+      tags:
+      - "USERS"
+      summary: "Delete user account."
+      description: "This function allows user to delete his/her account, accounts\
+        \ are unique by email address.\n"
+      operationId: "usersUSER_IDDELETE"
+      parameters:
+      - name: "USER_ID"
+        in: "path"
+        description: "userid to delete"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "x-bulb-api-key"
+        in: "header"
+        description: "secret hash SHA1 of 'ibtikar+glinty+smart+bulb' is '5932e7543873bbfa2d19c32649092c73d0bdcb1f'"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "done"
+        401:
+          description: "Data Descriped Error."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not Authorized Request / Not Found."
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "General Error Handler."
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "USERS"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+        description: "userid is unique. Used for all user requests."
+      username:
+        type: "string"
+        description: "username used for registeration."
+      email:
+        type: "string"
+        description: "user email used for registeration / Unique."
+      password:
+        type: "string"
+        description: "password for user."
+      birth_date:
+        type: "string"
+        description: "user birthdate in date formate"
+      latitude:
+        type: "number"
+        description: "user latitude for mapping his/her place"
+      longitude:
+        type: "number"
+        description: "user longitude for mapping his/her place"
+      created_at:
+        type: "string"
+        description: "DateString that indicates when this profile created"
+      modified_at:
+        type: "string"
+        description: "DateString that indicates when this profile modified"
+  Error:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
+  userObject:
+    type: "object"
+    required:
+    - "pass"
+    - "uem"
+    - "un"
+    properties:
+      un:
+        type: "string"
+        description: "username"
+      uem:
+        type: "string"
+        description: "user email address."
+      pass:
+        type: "string"
+        format: "password"
+        description: "user account password MD5ed"
+      bd:
+        type: "string"
+        format: "date-time"
+        description: "user birth date in string formate"
+      lon:
+        type: "number"
+        format: "double"
+        description: "user location longitude"
+      lat:
+        type: "number"
+        format: "double"
+        description: "user location latitude"
+    description: "user object"
+  House:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+        description: "house id"
+      name:
+        type: "string"
+        description: "house name, defined by user."
+      secret_ky:
+        type: "string"
+        description: "secret hash that used to control the whole house devices."
+      created_at:
+        type: "string"
+        description: "DateString that indicates when this house created"
+      modified_at:
+        type: "string"
+        description: "DateString that indicates when this house modified"
+  houseObject:
+    type: "object"
+    required:
+    - "hn"
+    - "sk"
+    - "uid"
+    properties:
+      hn:
+        type: "string"
+        description: "house name"
+      uid:
+        type: "number"
+        description: "user id."
+      sk:
+        type: "string"
+        description: "secret key"
+    description: "house object"
+  Room:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+        description: "room id"
+      name:
+        type: "string"
+        description: "room name"
+      apartment_id:
+        type: "number"
+        description: "house that room is involved in."
+      secret_ky:
+        type: "string"
+        description: "secret hash that used to control the whole house devices."
+      created_at:
+        type: "string"
+        description: "DateString that indicates when this room created"
+      modified_at:
+        type: "string"
+        description: "DateString that indicates when this room modified"
+  roomObject:
+    type: "object"
+    required:
+    - "hid"
+    - "rn"
+    - "sk"
+    - "uid"
+    properties:
+      hid:
+        type: "number"
+        description: "house id"
+      sk:
+        type: "string"
+        description: "secret key"
+      uid:
+        type: "number"
+        description: "user id"
+      rn:
+        type: "string"
+        description: "room name"
+  Device:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+        description: "device id"
+      name:
+        type: "string"
+        description: "device name"
+      secret_ky:
+        type: "string"
+        description: "secret hash that used to control this devices"
+      room_id:
+        type: "number"
+        description: "room id that device is attached to"
+      online:
+        type: "number"
+        description: "is device online(connected to internet) or not (9/1)"
+      on_off:
+        type: "number"
+        description: "current device state(0=>off, 1=>on)"
+      hexcolor:
+        type: "string"
+        description: "hex value of device current color (\"#ffffff\")"
+      dim_value:
+        type: "number"
+        description: "current value of the dimming of device."
+      created_at:
+        type: "string"
+        description: "DateString that indicates when this device created"
+      modified_at:
+        type: "string"
+        description: "DateString that indicates when this device modified"
+  deviceObject:
+    type: "object"
+    required:
+    - "dn"
+    - "hid"
+    - "rid"
+    - "sk"
+    - "uid"
+    properties:
+      rid:
+        type: "number"
+        description: "room id"
+      hid:
+        type: "number"
+        description: "house id"
+      uid:
+        type: "number"
+        description: "user id"
+      sk:
+        type: "string"
+        description: "secret key"
+      dn:
+        type: "string"
+        description: "device name"

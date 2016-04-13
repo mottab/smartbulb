@@ -1,0 +1,19 @@
+#	Copyright 2015, Ibtikar Technologies, Inc.
+runtime: nodejs
+vm: true
+
+network:
+  forwarded_ports:
+  - 3000
+  
+handlers:
+- url: .*
+  script: nothing.js
+
+health_check:
+  enable_health_check: False
+  
+# Temporary setting to keep gcloud from uploading node_modules
+skip_files:
+  - ^(.*/)?.*/node_modules/.*$
+ 
