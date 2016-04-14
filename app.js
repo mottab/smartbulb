@@ -11,7 +11,9 @@ jsyaml = require('js-yaml'),
 fs = require('fs'),
 app = express(),
 swaggerTools = require('swagger-tools'),
-socketServer = require('http').Server(app),
+https = require('https'),
+server = https.createServer(app),
+socketServer = https.Server(app),
 socketio = require('./control/socket'),
 request = require('request'),
 redisClient = require('redis').createClient(config.redis_config.REDISURL,
@@ -134,7 +136,7 @@ app.use(function(err, req, res, next) {
 });
 
 // Start the server
-var server = app.listen(config.port, function () {
+server.listen(config.port, function () {
   var host = server.address().address;
   var port = server.address().port;
 
