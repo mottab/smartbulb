@@ -21,7 +21,8 @@ module.exports = function(config) {
   */
   function create(req, cb) {
     var myData = getRegisterationRequestData(req.body);
-    
+    // cb(null, JSON.stringify(req.body));
+    // return;
     req.getConnection(function(err, connection){
       connection.query('SELECT email from `users` WHERE email = ?', myData.email, function(err, res){
       if (err) { return cb(err); }
