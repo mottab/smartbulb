@@ -11,21 +11,17 @@ jsyaml = require('js-yaml'),
 fs = require('fs'),
 app = express(),
 swaggerTools = require('swagger-tools'),
-// options = {
-//   key: fs.readFileSync('key.pem'),
-//   cert: fs.readFileSync('cert.pem')
-// },
 https = require('https'),
 pem = require('pem'),
 socketio = require('./control/socket'),
 request = require('request'),
+mqtt_server = require('./control/mqtt_service'),
 redisClient = require('redis').createClient(config.redis_config.REDISURL,
 {
   no_ready_check: true,
   enable_offline_queue: false
 }),
 dbOptions = config.dpOptions;
-
 
 
 pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
@@ -154,9 +150,14 @@ pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
 
     // ***************************************** SOCKETS START **********************************************
     // setup socket
-    var socketServer = https.Server({key: keys.serviceKey, cert: keys.certificate}, app).listen(config.io_port, function(){
-      console.log('socketIO is listening on *:' + config.io_port);
-    });
-    socketio(socketServer, redisClient);
+    // var socketServer = https.Server({key: keys.serviceKey, cert: keys.certificate}, app).listen(config.io_port, function(){
+    //   console.log('socketIO is listening on *:' + config.io_port);
+    // });
+    // socketio(socketServer, redisClient);
     // ***************************************** SOCKETS END ***********************************************
+    // ***************************************** MQTT START ************************************************
+    mqtt_server();
+    // startMQTT();
+    // ***************************************** MQTT END **************************************************
+
 });

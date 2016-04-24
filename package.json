@@ -27,27 +27,28 @@
   "license": "",
   "dependencies": {
     "body-parser": "^1.14.1",
-    "express": "^4.13.3",
-    "gcloud": "^0.24.0",
-    "lodash": "^3.10.1",
-    "mysql": "^2.9.0",
-    "prompt": "^0.2.14",
     "check-types": "^5.1.0",
-    "express-myconnection": "*",
-    "swagger-ui": "~2.0.0",
-    "swagger-tools": "0.9.*",
     "connect": "^3.2.0",
+    "express": "^4.13.3",
+    "express-myconnection": "*",
+    "gcloud": "^0.24.0",
     "js-yaml": "^3.3.0",
-    "socket.io":"1.4.4",
+    "lodash": "^3.10.1",
+    "mosca": "^1.2.0",
+    "mysql": "^2.9.0",
+    "pem": "*",
+    "prompt": "^0.2.14",
     "q": "1.4.1",
     "redis": "2.4.2",
-    "url": "0.11.0",
     "request": "^2.69.0",
-    "pem":"*"
+    "socket.io": "1.4.4",
+    "swagger-tools": "0.9.*",
+    "swagger-ui": "~2.0.0",
+    "url": "0.11.0"
   },
   "devDependencies": {
     "jshint": "^2.8.0",
-    "socket.io-client":"*"
+    "socket.io-client": "*"
   },
   "engines": {
     "node": ">=0.12.7"
