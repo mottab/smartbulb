@@ -21,12 +21,15 @@ redisClient = require('redis').createClient(config.redis_config.REDISURL,
   no_ready_check: true,
   enable_offline_queue: false
 }),
+
 dbOptions = config.dpOptions;
 // var options = {
 //    key  : fs.readFileSync('server.key'),
 //    cert : fs.readFileSync('server.cert')
 // };
-
+pem.config({
+    pathOpenSSL: '/usr/bin/openssl'
+});
 pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
 
     // //  DB connection - Signleton
