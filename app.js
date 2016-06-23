@@ -150,7 +150,7 @@ pem.config({
 //     server = https.createServer({key: keys.serviceKey, cert: keys.certificate}, app),
 // socketServer = https.Server({key: keys.serviceKey, cert: keys.certificate}, app),
     // Start the server
-    var server = https.createServer(app).listen(config.port, function () {
+    var server = https.createServer({key: keys.serviceKey, cert: keys.certificate}, app).listen(config.port, function () {
       var host = server.address().address;
       var port = server.address().port;
 
