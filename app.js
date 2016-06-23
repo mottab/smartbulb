@@ -25,7 +25,7 @@ redisClient = require('redis').createClient(config.redis_config.REDISURL,
 dbOptions = config.dpOptions;
 var options = {
    key: fs.readFileSync('./ssl_cert/my-server.key'), 
-   cert: fs.readFileSync('./ssl_cert/server/my-server.crt')
+   cert: fs.readFileSync('./ssl_cert/my-server.crt')
    // ca: fs.readFileSync('./ssl_cert/server/server-ca.crt.pem'),
 
 };
