@@ -12,7 +12,7 @@ module.exports = {
 	},
 	// configuring the port to 8080 or
 	// environment default port if not the same
-	port: process.env.PORT || 8080,
+	port: process.env.PORT || 443,
 	io_port: 3000,
 	// setting backend cloud storage db (cloudsql, mongodb, datastore)
 	dataBackend: 'cloudsql',

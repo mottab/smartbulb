@@ -23,14 +23,16 @@ redisClient = require('redis').createClient(config.redis_config.REDISURL,
 }),
 
 dbOptions = config.dpOptions;
-// var options = {
-//    key  : fs.readFileSync('server.key'),
-//    cert : fs.readFileSync('server.cert')
-// };
+var options = {
+   key: fs.readFileSync('./ssl_cert/my-server.key'), 
+   cert: fs.readFileSync('./ssl_cert/server/my-server.crt')
+   // ca: fs.readFileSync('./ssl_cert/server/server-ca.crt.pem'),
+
+};
 pem.config({
     pathOpenSSL: '/usr/bin/openssl'
 });
-pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
+// pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
 
     // //  DB connection - Signleton
     app.use(myConnection(mysql, dbOptions, 'pool'));
@@ -147,11 +149,11 @@ pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
 //     server = https.createServer({key: keys.serviceKey, cert: keys.certificate}, app),
 // socketServer = https.Server({key: keys.serviceKey, cert: keys.certificate}, app),
     // Start the server
-    var server = https.createServer({key: keys.serviceKey, cert: keys.certificate}, app).listen(config.port, function () {
+    var server = https.createServer(options/*{key: keys.serviceKey, cert: keys.certificate}*/, app).listen(config.port, function () {
       var host = server.address().address;
       var port = server.address().port;
 
-      console.log('App listening at http://%s:%s', host, port);
+      console.log('App listening at https://%s:%s', host, port);
     });
 
     // ***************************************** SOCKETS START **********************************************
@@ -166,4 +168,4 @@ pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
     // startMQTT();
     // ***************************************** MQTT END **************************************************
 
-});
+// });
