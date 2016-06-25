@@ -4,11 +4,10 @@ info:
   description: "Fully control your smart home's Lamps using your mobile app"
   version: "1.0.0"
   title: "Smart bulb API"
-host: "104.197.187.143:8080"
+host: "104.155.181.7:8080"
 basePath: "/api"
 schemes:
 - "https"
-- "http"
 consumes:
 - "application/json"
 produces:
