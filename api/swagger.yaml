@@ -7,7 +7,7 @@ info:
 host: "104.155.181.7:8080"
 basePath: "/api"
 schemes:
-- "https"
+- "http"
 consumes:
 - "application/json"
 produces:

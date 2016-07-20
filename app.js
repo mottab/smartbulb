@@ -12,6 +12,7 @@ fs = require('fs'),
 app = express(),
 swaggerTools = require('swagger-tools'),
 https = require('https'),
+http = require('http'),
 pem = require('pem'),
 socketio = require('./control/socket'),
 request = require('request'),
@@ -30,10 +31,10 @@ dbOptions = config.dpOptions;
 //    requestCert: false,
 //    rejectUnauthorized: true
 // };
-pem.config({
-    pathOpenSSL: '/usr/bin/openssl'
-});
- pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
+// pem.config({
+//     pathOpenSSL: '/usr/bin/openssl'
+// });
+ // pem.createCertificate({days:365, selfSigned:true}, function(err, keys){
 
     // //  DB connection - Signleton
     app.use(myConnection(mysql, dbOptions, 'pool'));
@@ -150,11 +151,11 @@ pem.config({
 //     server = https.createServer({key: keys.serviceKey, cert: keys.certificate}, app),
 // socketServer = https.Server({key: keys.serviceKey, cert: keys.certificate}, app),
     // Start the server
-    var server = https.createServer({key: keys.serviceKey, cert: keys.certificate}, app).listen(config.port, function () {
+    var server = http.createServer(/*{key: keys.serviceKey, cert: keys.certificate},*/ app).listen(config.port, function () {
       var host = server.address().address;
       var port = server.address().port;
 
-      console.log('App listening at https://%s:%s', host, port);
+      console.log('App listening at http://%s:%s', host, port);
     });
 
     // ***************************************** SOCKETS START **********************************************
@@ -169,4 +170,4 @@ pem.config({
     // startMQTT(); // to be uncommented once we need it.
     // ***************************************** MQTT END **************************************************
 
- });
+ // });
