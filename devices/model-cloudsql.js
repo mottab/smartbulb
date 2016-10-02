@@ -18,17 +18,21 @@ module.exports = function(config) {
     var data = req.body;
     var myData = getDeviceRequestData(data);
     req.getConnection(function(err, connection){
-      connection.query('SELECT id FROM `users` WHERE id=?', myData.user_id, function(err, res){
+      connection.query("SELECT id FROM `users` WHERE id = ? ", myData.user_id, function(err, res){
+        console.log("1")
       if(err) {  return cb(err); }
       if(res.length > 0) {
-        connection.query('SELECT id FROM `apartments` WHERE id=?', 
+        console.log("11")
+        connection.query('SELECT id FROM `apartments` WHERE id = ?', 
           myData.apartment_id, function(err, res){
             if(err) {  return cb(err); }
             if(res.length > 0) {
-              connection.query('SELECT id FROM `rooms` WHERE id=?',
+              console.log('2')
+              connection.query('SELECT id FROM `rooms` WHERE id = ?',
                 myData.room_id, function(err, res){
                   if(err) {  return cb(err); }
                   if(res.length > 0) {
+                    console.log('3')
                     connection.query('INSERT INTO `devices` SET name=?, room_id=?, secret_ky=?', 
                       [myData.name, myData.room_id, myData.secret_ky], function(err, res){
                       if (err) {  return cb(err); }
@@ -37,6 +41,7 @@ module.exports = function(config) {
                         [myData.user_id, myData.apartment_id, myData.room_id], function(err, res){
                         if(err) {  return cb(err); }
                         if(res.length == 0) {
+                          console.log('4')
                           connection.query('INSERT INTO `users_properties` SET user_id=?, device_id=?, is_admin=0', 
                             [myData.user_id, myData.device_id], function (err, res){
                               if(err) {  return cb(err); }

@@ -24,7 +24,7 @@ module.exports = function(config) {
     // cb(null, JSON.stringify(req.body));
     // return;
     req.getConnection(function(err, connection){
-      connection.query('SELECT email from `users` WHERE email = ?', myData.email, function(err, res){
+      cc,connection.query('SELECT email from `users` WHERE email = ?', myData.email, function(err, res){
       if (err) { return cb(err); }
       if (res.length == 0) {
         // email is not registered before
