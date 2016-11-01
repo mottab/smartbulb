@@ -258,6 +258,8 @@ function createSchema(config) {
     '`username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL, ' +
     '`email` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL, ' +
     '`password` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL, ' +
+    '`login_type` int(1) DEFAULT 1, '+
+    '`facebook_id` varchar(255) utf8_unicode_ci DEFAULT NULL, '+
     '`birth_date` date DEFAULT NULL, ' +
     '`latitude` double DEFAULT NULL, ' +
     '`longitude` double DEFAULT NULL, ' +

@@ -4,6 +4,12 @@
 
 var extend = require('lodash').assign;
 var mysql = require('mysql');
+var path = require('path'),
+    fs = require('fs');
+var config = require('../config');
+var images = require('../media/images');
+
+
 
 module.exports = function(config) {
 
@@ -24,10 +30,16 @@ module.exports = function(config) {
     // cb(null, JSON.stringify(req.body));
     // return;
     req.getConnection(function(err, connection){
-      cc,connection.query('SELECT email from `users` WHERE email = ?', myData.email, function(err, res){
+      connection.query('SELECT email from `users` WHERE email = ?', myData.email, function(err, res){
       if (err) { return cb(err); }
       if (res.length == 0) {
         // email is not registered before
+        // upload image to gcs - google cloud storage
+        // Was an image uploaded? If so, we'll use its public URL
+        // in cloud storage.
+        if(myData.login_type) {
+          myData.imageUrl = "https://graph.facebook.com/"+myData.facebook_id+"/picture?type=large";
+        }
         // start insertion query
         connection.query('INSERT INTO `users` SET ?', myData, function(err, res) {
            if (err) { return cb(err); }
@@ -46,6 +58,24 @@ module.exports = function(config) {
     });
   }
   // [END create]
+  
+  // [START Image]
+  function image(req, cb) {
+    var myData = req.body;
+    var id = req.params.user;
+    req.getConnection(function(err, connection){
+      if (req.file && req.file.cloudStoragePublicUrl) {
+          myData.imageUrl = req.file.cloudStoragePublicUrl;
+        }else {
+          console.log("kahttab-debug: didn't entered");
+        }
+        connection.query('UPDATE `users` SET `imageUrl` = ? WHERE `id` = ?', [myData.imageUrl, id], function(err, res){
+          if (err) { return cb(err); }
+          read(req, cb);
+        });
+    });
+  }
+  // [END Image]
 
   // [START select]
   function read(req, cb) {
@@ -98,7 +128,8 @@ module.exports = function(config) {
       create: create,
       read: read,
       update: update,
-      delete: _delete
+      delete: _delete,
+      image: image
   };
 
 };
@@ -128,6 +159,13 @@ function getRegisterationRequestData(data) {
   }
   if("lat" in data) {
     newData['latitude'] = data['lat'];
+  }
+  // 1 -> normal reg, 2 -> social reg.
+  if("lg_type" in data){
+    newData['login_type'] = data['lg_type'];
+  }
+  if("fb_id" in data){
+    newData['facebook_id'] = data['fb_id'];
   }
 
   return newData;
@@ -195,6 +233,8 @@ function createSchema(config) {
     '`username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL, ' +
     '`email` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL, ' +
     '`password` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL, ' +
+    '`login_type` int(1) DEFAULT 1, '+
+    '`facebook_id` varchar(255) utf8_unicode_ci DEFAULT NULL, '+
     '`birth_date` date DEFAULT NULL, ' +
     '`latitude` double DEFAULT NULL, ' +
     '`longitude` double DEFAULT NULL, ' +

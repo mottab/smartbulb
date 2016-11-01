@@ -166,7 +166,7 @@ dbOptions = config.dpOptions;
     // socketio(socketServer, redisClient);
     // ***************************************** SOCKETS END ***********************************************
     // ***************************************** MQTT START ************************************************
-    mqtt_server();
+    mqtt_server(); // this is the main access for the mqtt -- 2/10/2016
     // startMQTT(); // to be uncommented once we need it.
     // ***************************************** MQTT END **************************************************
 

@@ -19,7 +19,8 @@ module.exports = {
 
 	// Setting project id over gcloud
 	gcloud: {
-		projectId: 'ibtikar-s-bulb'
+		projectId: 'ibtikar-s-bulb',
+		CLOUD_BUCKET: "ibtikar-s-bulb"
 	},
 
 	// mysql configuration, if I am working over cloudsql
